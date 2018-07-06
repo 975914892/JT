@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<context id="mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+		<!-- 注释生成器 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="false"/>
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+	
+		<!-- 数据库连接相关信息 -->
+		<jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@192.168.43.127:1521:orcl" userId="root"
+			password="root">
+		</jdbcConnection>
+
+		<!-- Java类型解析 -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 指定实体生成的位置 -->
+		<javaModelGenerator targetPackage="wc.entity"
+			targetProject="src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- 指定映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src\main\resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 映射信息对应的接口生成位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="wc.dao" targetProject="src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 定义表以及生成的实体类、dao类、映射文件等信息 -->
+		<table tableName="tb_crm_department" domainObjectName="TbCrmDepartment" mapperName="ITbCrmDepartmentDao" />
+		<table tableName="tb_crm_position" domainObjectName="TbCrmPosition" mapperName="ITbCrmPositionDao" />
+		<table tableName="tb_crm_employee" domainObjectName="TbCrmEmployee" mapperName="ITbCrmEmployeeDao" />
+		<table tableName="tb_crm_leads" domainObjectName="TbCrmLeads" mapperName="ITbCrmLeadsDao" />
+		<table tableName="tb_crm_customer" domainObjectName="TbCrmCustomer" mapperName="ITbCrmCustomerDao" />
+		<table tableName="tb_crm_contacts" domainObjectName="TbCrmContacts" mapperName="ITbCrmContactsDao" />
+		<table tableName="tb_crm_product" domainObjectName="TbCrmProduct" mapperName="ITbCrmProductDao" />
+		<table tableName="tb_crm_product_category" domainObjectName="TbCrmProductCategory" mapperName="ITbCrmProductCategoryDao" />
+		<table tableName="tb_crm_product_images" domainObjectName="TbCrmProductImages" mapperName="ITbCrmProductImagesDao" />
+		<table tableName="tb_crm_business" domainObjectName="TbCrmBusiness" mapperName="ITbCrmBusinessDao" />
+		<table tableName="tb_crm_business_status" domainObjectName="TbCrmBusinessStatus" mapperName="ITbCrmBusinessStatusDao" />
+		<table tableName="tb_crm_r_business_product" domainObjectName="TbCrmRBusinessProduct" mapperName="ITbCrmRBusinessProductDao" />
+		<table tableName="tb_crm_r_business_customer" domainObjectName="TbCrmRBusinessCustomer" mapperName="ITbCrmRBusinessCustomerDao" />
+		<table tableName="tb_crm_contract" domainObjectName="TbCrmContract" mapperName="ITbCrmContractDao" />
+		<table tableName="tb_crm_r_business_contract" domainObjectName="TbCrmRBusinessContract" mapperName="ITbCrmRBusinessContractDao" />
+		<table tableName="tb_crm_task" domainObjectName="TbCrmTask" mapperName="ITbCrmTaskDao" />
+		<table tableName="tb_crm_r_business_task" domainObjectName="TbCrmRBusinessTask" mapperName="ITbCrmRBusinessTaskDao" />
+		<table tableName="tb_crm_sms_record" domainObjectName="TbCrmSmsRecord" mapperName="ITbCrmSmsRecordDao" />
+		<table tableName="tb_crm_sms_template" domainObjectName="TbCrmSmsTemplate" mapperName="ITbCrmSmsTemplateDao" />
+		<table tableName="tb_crm_email_record" domainObjectName="TbCrmEmailRecord" mapperName="ITbCrmEmailRecordDao" />
+		<table tableName="tb_crm_email_template" domainObjectName="TbCrmEmailTemplate" mapperName="ITbCrmEmailTemplateDao" />
+		<table tableName="tb_crm_announcement" domainObjectName="TbCrmAnnouncement" mapperName="ITbCrmAnnouncementDao" />
+		<table tableName="tb_crm_login_history" domainObjectName="TbCrmLoginHistory" mapperName="ITbCrmLoginHistoryDao" />
+		<table tableName="tb_crm_message" domainObjectName="TbCrmMessage" mapperName="ITbCrmMessageDao" />
+		<table tableName="tb_system_user" domainObjectName="TbSystemUser" mapperName="ITbSystemUserDao" />
+		<table tableName="tb_system_user_role" domainObjectName="TbSystemUserRole" mapperName="ITbSystemUserRoleDao" />
+		<table tableName="tb_system_role" domainObjectName="TbSystemRole" mapperName="ITbSystemRoleDao" />
+		<table tableName="tb_system_role_function" domainObjectName="TbSystemRoleFunction" mapperName="ITbSystemRoleFunctionDao" />
+		<table tableName="tb_system_function" domainObjectName="TbSystemFunction" mapperName="ITbSystemFunctionDao" />
+		
+
+	</context>
+</generatorConfiguration>
