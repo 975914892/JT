@@ -27,7 +27,7 @@ public class AnnouncementController {
 	@Resource
 	public ITbCrmAnnouncementService tbCrmAnnouncementService;
 	
-	/**********************·ÖÒ³²éÑ¯**************************/
+	/**********************åˆ†é¡µæŸ¥è¯¢**************************/
 	@RequestMapping("announcement")
 	public String findNoticeInfo_jsp() {
 		
@@ -39,14 +39,14 @@ public class AnnouncementController {
 		String rows = request.getParameter("rows");
 		String page = request.getParameter("page");
 		
-		//¿ªÊ¼NO
+		//å¼€å§‹NO
 		int startNo =(Integer.parseInt(page)-1)*Integer.parseInt(rows);
-		//½áÊøNO
+		//ç»“æŸNO
 		int endNo=Integer.parseInt(page)*Integer.parseInt(rows)+1;
 		List<TbCrmAnnouncement> listA =tbCrmAnnouncementService.findByPage(startNo,endNo);
 		int total =tbCrmAnnouncementService.findtotal();
 		
-		//id²éÑ¯_ÏµÍ³ÓÃ»§Ãû
+		//idæŸ¥è¯¢_ç³»ç»Ÿç”¨æˆ·å
 		
 		List<AnnoouncementVO> list=new ArrayList<AnnoouncementVO>();
 		if(listA !=null && listA.size()>0) {
@@ -69,18 +69,18 @@ public class AnnouncementController {
 			}	
 			
 		}
-		//Êı¾İĞ´³ö µ½Ò³Ãæ
+		//æ•°æ®å†™å‡º åˆ°é¡µé¢
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		json.put("total", total);
 		json.put("rows", list);
-		json.put("message", "³õÊ¼»¯Êı¾İ³É¹¦");
+		json.put("message", "åˆå§‹åŒ–æ•°æ®æˆåŠŸ");
 		out.println(json.toString());
 		out.flush();
 	}
-	/**********************Ìí¼Ó¹«¸æ**************************/
+	/**********************æ·»åŠ å…¬å‘Š**************************/
 		@RequestMapping("addAnnouncementBefore")
 		public String findAddAnnouncement_jsp() {
 		
@@ -97,7 +97,7 @@ public class AnnouncementController {
 			tca.setOrderId(avo.getOrderId());
 			tca.setUserId(userId);
 			tca.setTitle(avo.getTitle());
-			//»ñµÃ´´½¨Ê±¼ä
+			//è·å¾—åˆ›å»ºæ—¶é—´
 			tca.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 			
 			tca.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
@@ -106,27 +106,27 @@ public class AnnouncementController {
 			tca.setStatus(avo.getStatus());
 			tca.setIsshow(avo.getIsshow());
 			tca.setContent(avo.getContent());
-			//²åÈëÊı¾İ
+			//æ’å…¥æ•°æ®
 			int row = tbCrmAnnouncementService.insert(tca);
-			//ÏòÒ³Ãæ·µ»ØÊı¾İ
+			//å‘é¡µé¢è¿”å›æ•°æ®
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			JSONObject json = new JSONObject();
 			if(row >0) {
-				json.put("message", "Ìí¼Ó¹«¸æ³É¹¦");
+				json.put("message", "æ·»åŠ å…¬å‘ŠæˆåŠŸ");
 			}else {
-				json.put("message", "Ìí¼Ó¹«¸æÊ§°Ü");
+				json.put("message", "æ·»åŠ å…¬å‘Šå¤±è´¥");
 			}
 			out.println(json.toString());
 			out.flush();
 			
 		}
-		/**********************ĞŞ¸Ä¹«¸æ**************************/
+		/**********************ä¿®æ”¹å…¬å‘Š**************************/
 		@RequestMapping("editAnnouncementBefore")
 		public String findEditAnnouncement_jsp(int id,HttpServletRequest request) {
 			
-			//¸ù¾İid²éÑ¯¹«¸æĞÅÏ¢
+			//æ ¹æ®idæŸ¥è¯¢å…¬å‘Šä¿¡æ¯
 			TbCrmAnnouncement tca = tbCrmAnnouncementService.findOneById(id);
 			String username = tbCrmAnnouncementService.findUsernameById(tca.getUserId());
 			
@@ -156,7 +156,7 @@ public class AnnouncementController {
 			tca.setUserId(userId);
 			tca.setTitle(avo.getTitle());
 			tca.setCreateTime(avo.getCreateTime());
-			//»ñµÃĞŞ¸ÄÊ±¼ä
+			//è·å¾—ä¿®æ”¹æ—¶é—´
 			tca.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 			tca.setColor(avo.getColor());
 			tca.setDepartment(avo.getDepartment());
@@ -164,22 +164,22 @@ public class AnnouncementController {
 			tca.setIsshow(avo.getIsshow());
 			tca.setContent(avo.getContent());
 			
-			//ĞŞ¸ÄÊı¾İ
+			//ä¿®æ”¹æ•°æ®
 			int row = tbCrmAnnouncementService.update(tca);
-			//ÏòÒ³Ãæ·µ»ØÊı¾İ
+			//å‘é¡µé¢è¿”å›æ•°æ®
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			JSONObject json = new JSONObject();
 			if(row >0) {
-				json.put("message", "ĞŞ¸Ä¹«¸æ³É¹¦");
+				json.put("message", "ä¿®æ”¹å…¬å‘ŠæˆåŠŸ");
 			}else {
-				json.put("message", "ĞŞ¸Ä¹«¸æÊ§°Ü");
+				json.put("message", "ä¿®æ”¹å…¬å‘Šå¤±è´¥");
 			}
 			out.println(json.toString());
 			out.flush();
 		}
-		/**********************É¾³ı¹«¸æ**************************/
+		/**********************åˆ é™¤å…¬å‘Š**************************/
 		@ResponseBody
 		@RequestMapping("/deleteAnnouncement")
 		public void delUser(Integer id,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -190,9 +190,9 @@ public class AnnouncementController {
 			JSONObject json = new JSONObject();
 			int flag =tbCrmAnnouncementService.deleteById(id);
 			if(flag>0) {
-				json.put("message", "É¾³ı¹«¸æ³É¹¦");
+				json.put("message", "åˆ é™¤å…¬å‘ŠæˆåŠŸ");
 			}else {
-				json.put("message", "É¾³ı¹«¸æÊ§°Ü");
+				json.put("message", "åˆ é™¤å…¬å‘Šå¤±è´¥");
 			}
 			System.out.println(flag);
 			out.print(json.toString());
@@ -201,21 +201,21 @@ public class AnnouncementController {
 			
 		}
 		
-		/**********************Ä£ºı²éÑ¯¹«¸æ
+		/**********************æ¨¡ç³ŠæŸ¥è¯¢å…¬å‘Š
 		 ***************************/
 		@RequestMapping("/titleSerachSelect")
 		public void titleSerachSelect(String title,HttpServletRequest request,HttpServletResponse response) throws Exception {
 			String rows = request.getParameter("rows");
 			String page = request.getParameter("page");
 			
-			//¿ªÊ¼NO
+			//å¼€å§‹NO
 			int startNo =(Integer.parseInt(page)-1)*Integer.parseInt(rows);
-			//½áÊøNO
+			//ç»“æŸNO
 			int endNo=Integer.parseInt(page)*Integer.parseInt(rows)+1;
 		
-			//¸ù¾İtitle²éÑ¯µÄÊı¾İ×ÜÌõÊı
+			//æ ¹æ®titleæŸ¥è¯¢çš„æ•°æ®æ€»æ¡æ•°
 			int total = tbCrmAnnouncementService.findByTitleTotal(title);
-			//¸ù¾İtitle µÄ·ÖÒ³²éÑ¯
+			//æ ¹æ®title çš„åˆ†é¡µæŸ¥è¯¢
 			List<TbCrmAnnouncement> listA = tbCrmAnnouncementService.findByTitlePage(startNo,endNo,title);
 			
 			List<AnnoouncementVO> list=new ArrayList<AnnoouncementVO>();
@@ -239,14 +239,14 @@ public class AnnouncementController {
 				}	
 				
 			}
-			//Êı¾İĞ´³ö µ½Ò³Ãæ
+			//æ•°æ®å†™å‡º åˆ°é¡µé¢
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			JSONObject json = new JSONObject();
 			json.put("total", total);
 			json.put("rows", list);
-			json.put("message", "³õÊ¼»¯Êı¾İ³É¹¦");
+			json.put("message", "åˆå§‹åŒ–æ•°æ®æˆåŠŸ");
 			out.println(json.toString());
 			out.flush();
 			

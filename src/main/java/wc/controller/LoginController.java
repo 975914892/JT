@@ -59,19 +59,19 @@ public class LoginController {
 	public ITbSystemMessageService MService;
 	
 	
-	//×¢ÏúÍË³ö
+	//æ³¨é”€é€€å‡º
 	@RequestMapping("/Exitok")
 	public void Exit(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
-		System.out.println("ÍË³öÏµÍ³²Ù×÷");
+		System.out.println("é€€å‡ºç³»ç»Ÿæ“ä½œ");
 		HttpSession session= request.getSession();
 		TbSystemUser user=(TbSystemUser) session.getAttribute("user");
 		System.out.println(user);
 		session.invalidate();
-		System.out.println("Ïú»Ùºó£º"+user);
+		System.out.println("é”€æ¯åï¼š"+user);
 		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
 	
-	//Õ¾ÄÚĞÅ
+	//ç«™å†…ä¿¡
 	@RequestMapping("/message")
 	public String messagedo(HttpServletRequest request){
 		HttpSession session= request.getSession();
@@ -81,59 +81,59 @@ public class LoginController {
 		return "messageList";
 	}
 	
-	//ÓÃ»§¹ÜÀí
+	//ç”¨æˆ·ç®¡ç†
 	@RequestMapping("/userList")
 	public String userList(){
 		return "userList";
 	}
 	
-	//ÓÃ»§Ìí¼Ó
+	//ç”¨æˆ·æ·»åŠ 
 	@RequestMapping("/userAdd")
 	public String userAdd() {
 		return "userinsert";
 	}
 	
-	//ÓÃ»§¹ÜÀí ÊÚÈ¨
+	//ç”¨æˆ·ç®¡ç† æˆæƒ
 	@RequestMapping("/UserForRole")
 	public String UserForRole(Integer userId,HttpServletRequest request){
 		request.setAttribute("userId", userId);
 		return "userForRole";
 	}
 	
-	//½ÇÉ«¹ÜÀí
+	//è§’è‰²ç®¡ç†
 	@RequestMapping("/roleList")
 	public String roleList(){
 			
 		return "roleList";
 	}
 	
-	//½ÇÉ«Ìí¼Ó
+	//è§’è‰²æ·»åŠ 
 	@RequestMapping("/roleAdd")
 	public String roleAdd() {
 		return "roleinsert";
 	}
 	
-	//½ÇÉ«¹ÜÀí ÊÚÈ¨
+	//è§’è‰²ç®¡ç† æˆæƒ
 	@RequestMapping("/RoleForFunction")
 	public String RoleForFunction(Integer roleId,HttpServletRequest request){
 		request.setAttribute("roleId", roleId);
 		return "roleForFunction";
 	}
 	
-	//È¨ÏŞ¹ÜÀí
+	//æƒé™ç®¡ç†
 	@RequestMapping("/functionList")
 	public String functionList(){
 
 		return "functionList";
 	}
 	
-	//½ÇÉ«Ìí¼Ó
+	//è§’è‰²æ·»åŠ 
 	@RequestMapping("/functionAdd")
 	public String functionAdd() {
 		return "functioninsert";
 	}
 	
-	//µÇÂ¼
+	//ç™»å½•
 	@RequestMapping("/login")
 	public String login(HttpServletRequest req, HttpServletResponse resp) throws Exception{
 		String username = req.getParameter("username");
@@ -142,14 +142,14 @@ public class LoginController {
 		HttpSession session =  req.getSession();
 		session.setAttribute("oldpassword", pw);
 		if(username == null && username.equals("")) {
-			req.setAttribute("message", "ÓÃ»§Ãû²»ÄÜÎª¿Õ!");
+			req.setAttribute("message", "ç”¨æˆ·åä¸èƒ½ä¸ºç©º!");
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
 //			resp.sendRedirect(req.getContextPath()+"/login.jsp");
 		}
 		TbSystemUser user= userService.login(username, password);
 		System.out.println(user);
 		if(user == null) {
-			req.setAttribute("message", "ÕËºÅ»òÃÜÂë´íÎó");
+			req.setAttribute("message", "è´¦å·æˆ–å¯†ç é”™è¯¯");
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
 		}else {
 			int id = user.getUserId();
@@ -170,7 +170,7 @@ public class LoginController {
 				 List<TbSystemFunction> list1 = functionService.findFunctionById(roleIds);
 					if(list.size()>0) {
 						session.setAttribute("functions", list1);
-					}else {req.setAttribute("message", "Ã»ÓĞÓÃ»§È¨ÏŞ");
+					}else {req.setAttribute("message", "æ²¡æœ‰ç”¨æˆ·æƒé™");
 					req.getRequestDispatcher("login.jsp").forward(req, resp);
 				}
 			}
@@ -213,12 +213,12 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		json.put("data", menus);
 		json.put("success", true);
-		json.put("message", "¼ÓÔØ²Ëµ¥³É¹¦£¡");
+		json.put("message", "åŠ è½½èœå•æˆåŠŸï¼");
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//ÓÃ»§¹ÜÀí  user·ÖÒ³²éÑ¯
+	//ç”¨æˆ·ç®¡ç†  useråˆ†é¡µæŸ¥è¯¢
 	@ResponseBody
 	@RequestMapping("/selectUser")
 	public Map<String, Object> getUser(HttpServletRequest request, HttpServletResponse response) {
@@ -244,7 +244,7 @@ public class LoginController {
 	}
 	
 
-	//½ÇÉ«¹ÜÀí  role·ÖÒ³²éÑ¯
+	//è§’è‰²ç®¡ç†  roleåˆ†é¡µæŸ¥è¯¢
 	@ResponseBody
 	@RequestMapping("/selectRole")
 	public Map<String, Object> getRole(HttpServletRequest request, HttpServletResponse response) {
@@ -269,7 +269,7 @@ public class LoginController {
 
 	}
 
-	//È¨ÏŞ¹ÜÀí  function·ÖÒ³²éÑ¯
+	//æƒé™ç®¡ç†  functionåˆ†é¡µæŸ¥è¯¢
 	@ResponseBody
 	@RequestMapping("/selectFunction")
 	public Map<String, Object> getFunction(HttpServletRequest request, HttpServletResponse response) {
@@ -295,7 +295,7 @@ public class LoginController {
 	}
 	
 
-	//ÓÃ»§¹ÜÀí userĞŞ¸ÄÇ°²éÑ¯
+	//ç”¨æˆ·ç®¡ç† userä¿®æ”¹å‰æŸ¥è¯¢
 	@RequestMapping("/userUpdateList/{userId}")
 	public String UserUpdateList(@PathVariable Integer userId,HttpServletRequest request) {
 		TbSystemUser list=userService.listByid(userId);
@@ -304,7 +304,7 @@ public class LoginController {
 	}
 	
 
-	 //½ÇÉ«¹ÜÀí roleĞŞ¸ÄÇ°²éÑ¯
+	 //è§’è‰²ç®¡ç† roleä¿®æ”¹å‰æŸ¥è¯¢
 	@RequestMapping("/roleUpdateList/{roleId}")
 	public String RoleUpdateList(@PathVariable Integer roleId,HttpServletRequest request) {
 		TbSystemRole list=roleService.listByid(roleId);
@@ -312,7 +312,7 @@ public class LoginController {
 		return "roleedit";
 	}
 	
- 	//È¨ÏŞ¹ÜÀí functionĞŞ¸ÄÇ°²éÑ¯
+ 	//æƒé™ç®¡ç† functionä¿®æ”¹å‰æŸ¥è¯¢
 	@RequestMapping("/functionUpdateList/{functionId}")
 	public String FunctionUpdateList(@PathVariable Integer functionId,HttpServletRequest request) {
 		TbSystemFunction list=functionService.listByid(functionId);
@@ -321,7 +321,7 @@ public class LoginController {
 	}
 	
 	
-	//ÓÃ»§¹ÜÀí userĞŞ¸Ä
+	//ç”¨æˆ·ç®¡ç† userä¿®æ”¹
 	@ResponseBody
 	@RequestMapping("/userUpdateok")
 	public void UserUpdatedo(TbSystemUser user,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -334,18 +334,18 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		user.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 		int ok=userService.updateByPrimaryKey(user);
-		System.out.println("ĞŞ¸ÄÊÇ·ñ³É¹¦"+ok);
+		System.out.println("ä¿®æ”¹æ˜¯å¦æˆåŠŸ"+ok);
 		if(ok>0) {
-			json.put("message", "ĞŞ¸Ä³É¹¦£¡");
+			json.put("message", "ä¿®æ”¹æˆåŠŸï¼");
 		}else {
-			json.put("message", "ĞŞ¸ÄÊ§°Ü£¡");
+			json.put("message", "ä¿®æ”¹å¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	} 
 	
 
-	//½ÇÉ«¹ÜÀí roleĞŞ¸Ä
+	//è§’è‰²ç®¡ç† roleä¿®æ”¹
 	@ResponseBody
 	@RequestMapping("/roleUpdateok")
 	public void ROleUpdatedo(TbSystemRole role,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -355,17 +355,17 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		role.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 		int ok=roleService.updateByPrimaryKey(role);
-		System.out.println("ĞŞ¸ÄÊÇ·ñ³É¹¦"+ok);
+		System.out.println("ä¿®æ”¹æ˜¯å¦æˆåŠŸ"+ok);
 		if(ok>0) {
-			json.put("message", "ĞŞ¸Ä³É¹¦£¡");
+			json.put("message", "ä¿®æ”¹æˆåŠŸï¼");
 		}else {
-			json.put("message", "ĞŞ¸ÄÊ§°Ü£¡");
+			json.put("message", "ä¿®æ”¹å¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	} 
 
-	//È¨ÏŞ¹ÜÀí functionĞŞ¸Ä
+	//æƒé™ç®¡ç† functionä¿®æ”¹
 	@ResponseBody
 	@RequestMapping("/functionUpdateok")
 	public void FunctionUpdatedo(TbSystemFunction function,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -374,28 +374,28 @@ public class LoginController {
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		int ok=functionService.updateByPrimaryKey(function);
-		System.out.println("ĞŞ¸ÄÊÇ·ñ³É¹¦"+ok);
+		System.out.println("ä¿®æ”¹æ˜¯å¦æˆåŠŸ"+ok);
 		if(ok>0) {
-			json.put("message", "ĞŞ¸Ä³É¹¦£¡");
+			json.put("message", "ä¿®æ”¹æˆåŠŸï¼");
 		}else {
-			json.put("message", "ĞŞ¸ÄÊ§°Ü£¡");
+			json.put("message", "ä¿®æ”¹å¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	}
 	
 	
-	//ÓÃ»§¹ÜÀí  userÉ¾³ı
+	//ç”¨æˆ·ç®¡ç†  useråˆ é™¤
 	@ResponseBody
 	@RequestMapping("/userDelete/{userId}")
 	public boolean userDelete(@PathVariable Integer userId) {
 		boolean bl=userService.deleteById(userId);
-		System.out.println(userId+"            userÉ¾³ı·½·¨       "+bl);
+		System.out.println(userId+"            useråˆ é™¤æ–¹æ³•       "+bl);
 		return bl;
 	}
 	
 
-    //½ÇÉ«¹ÜÀí  roleÉ¾³ı
+    //è§’è‰²ç®¡ç†  roleåˆ é™¤
 	@ResponseBody
 	@RequestMapping("/roleDelete/{roleId}")
 	public boolean roleDelete(@PathVariable Integer roleId) {
@@ -403,7 +403,7 @@ public class LoginController {
 		return bl;
 	}
 	
-    //È¨ÏŞ¹ÜÀí  functionÉ¾³ı
+    //æƒé™ç®¡ç†  functionåˆ é™¤
 	@ResponseBody
 	@RequestMapping("/functionDelete/{functionId}")
 	public boolean functionDelete(@PathVariable Integer functionId) {
@@ -411,7 +411,7 @@ public class LoginController {
 		return bl;
 	}
 	
-	//ÊÚÈ¨--ÓÃ»§ÊÚÈ¨ user-role
+	//æˆæƒ--ç”¨æˆ·æˆæƒ user-role
 	@ResponseBody
 	@RequestMapping("/roleFindByPage")
 	public void roleFindByPage(Integer userId,Integer page,Integer rows,HttpServletResponse response) throws IOException{
@@ -421,11 +421,11 @@ public class LoginController {
 		if(rows == null){
 			rows = 10;
 		}
-		//·ÖÒ³²éÑ¯
+		//åˆ†é¡µæŸ¥è¯¢
 		List<TbSystemRole> list = roleService.findByPage(page,rows);
-		//×Ü¼ÇÂ¼Êı
+		//æ€»è®°å½•æ•°
 		int total = roleService.findTotal();
-		//¸ù¾İÓÃ»§id²éÑ¯¸ÃÓÃ»§ÏÖÔÚËùÊôµÄ½ÇÉ«
+		//æ ¹æ®ç”¨æˆ·idæŸ¥è¯¢è¯¥ç”¨æˆ·ç°åœ¨æ‰€å±çš„è§’è‰²
 		List<TbSystemRole> roles = new ArrayList<TbSystemRole>();
 		List<TbSystemUserRole> urs= urService.findByUserId(userId);
 		for(TbSystemRole r : list){
@@ -444,7 +444,7 @@ public class LoginController {
 		json.put("totalRows", total);
 		json.put("result", roles);
 		json.put("success", true);
-		json.put("message", "¼ÓÔØ²Ëµ¥³É¹¦£¡");
+		json.put("message", "åŠ è½½èœå•æˆåŠŸï¼");
 		out.print(json.toString());
 		out.flush();
 	}
@@ -455,7 +455,7 @@ public class LoginController {
 		int result = 0;
 		if(roleIds!=null && !"".equals(roleIds)){
 			String[] ids = roleIds.split(",");
-			//ÏÈ¸ù¾İuserIdÉ¾³ıuserRole±í£¬ÔÙÅúÁ¿²åÈë
+			//å…ˆæ ¹æ®userIdåˆ é™¤userRoleè¡¨ï¼Œå†æ‰¹é‡æ’å…¥
 			urService.deleteByUserId(userId);
 			for(String id : ids){
 				if(id != null && !"".equals(id)){
@@ -472,16 +472,16 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		if(result > 0){
 			json.put("success", true);
-			json.put("message", "ÊÚÈ¨³É¹¦£¡");
+			json.put("message", "æˆæƒæˆåŠŸï¼");
 		}else{
 			json.put("success", false);
-			json.put("message", "ÊÚÈ¨Ê§°Ü£¡");
+			json.put("message", "æˆæƒå¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//ÊÚÈ¨--½ÇÉ«ÊÚÈ¨ role-function
+	//æˆæƒ--è§’è‰²æˆæƒ role-function
 	@ResponseBody
 	@RequestMapping("/functionFindByPage")
 	public void functionFindByPage(Integer roleId,Integer page,Integer rows,HttpServletResponse response) throws IOException{
@@ -491,11 +491,11 @@ public class LoginController {
 		if(rows == null){
 			rows = 10;
 		}
-		//·ÖÒ³²éÑ¯
+		//åˆ†é¡µæŸ¥è¯¢
 		List<TbSystemFunction> list = functionService.findByPage(page,rows);
-		//×Ü¼ÇÂ¼Êı
+		//æ€»è®°å½•æ•°
 		int total = functionService.findTotal();
-		//¸ù¾İÓÃ»§id²éÑ¯¸ÃÓÃ»§ÏÖÔÚËùÊôµÄ½ÇÉ«
+		//æ ¹æ®ç”¨æˆ·idæŸ¥è¯¢è¯¥ç”¨æˆ·ç°åœ¨æ‰€å±çš„è§’è‰²
 		List<TbSystemFunction> functions = new ArrayList<TbSystemFunction>();
 		System.out.println("2222222222222222222");
 		List<TbSystemRoleFunction> rfs= rfService.findByRoleId(roleId);
@@ -515,7 +515,7 @@ public class LoginController {
 		json.put("totalRows", total);
 		json.put("result", list);
 		json.put("success", true);
-		json.put("message", "¼ÓÔØ²Ëµ¥³É¹¦£¡");
+		json.put("message", "åŠ è½½èœå•æˆåŠŸï¼");
 		out.print(json.toString());
 		out.flush();
 	}
@@ -526,7 +526,7 @@ public class LoginController {
 		int result = 0;
 		if(funcIds!=null && !"".equals(funcIds)){
 			String[] ids = funcIds.split(",");
-			//ÏÈ¸ù¾İuserIdÉ¾³ıuserRole±í£¬ÔÙÅúÁ¿²åÈë
+			//å…ˆæ ¹æ®userIdåˆ é™¤userRoleè¡¨ï¼Œå†æ‰¹é‡æ’å…¥
 			rfService.deleteByRoleId(roleId);
 			for(String id : ids){
 				if(id != null && !"".equals(id)){
@@ -543,16 +543,16 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		if(result > 0){
 			json.put("success", true);
-			json.put("message", "ÊÚÈ¨³É¹¦£¡");
+			json.put("message", "æˆæƒæˆåŠŸï¼");
 		}else{
 			json.put("success", false);
-			json.put("message", "ÊÚÈ¨Ê§°Ü£¡");
+			json.put("message", "æˆæƒå¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//ÓÃ»§¹ÜÀí  UserÌí¼Ó
+	//ç”¨æˆ·ç®¡ç†  Useræ·»åŠ 
 	@ResponseBody
 	@RequestMapping("/insertUser")
 	public void UserInsert(TbSystemUser user,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -566,16 +566,16 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		int flag=userService.insert(user);
 		if(flag>0) {
-			json.put("message", "Ìí¼Ó³É¹¦");
+			json.put("message", "æ·»åŠ æˆåŠŸ");
 		}else {
-			json.put("message", "Ìí¼ÓÊ§°Ü£¡ÓÃ»§Ãû²»ÄÜÖØ¸´");
+			json.put("message", "æ·»åŠ å¤±è´¥ï¼ç”¨æˆ·åä¸èƒ½é‡å¤");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//½ÇÉ«¹ÜÀí  RoleÌí¼Ó
+	//è§’è‰²ç®¡ç†  Roleæ·»åŠ 
 	@ResponseBody
 	@RequestMapping("/insertRole")
 	public void RoleInsert(TbSystemRole role,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -588,16 +588,16 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		int flag=roleService.insert(role);
 		if(flag>0) {
-			json.put("message", "Ìí¼Ó³É¹¦");
+			json.put("message", "æ·»åŠ æˆåŠŸ");
 		}else {
-			json.put("message", "Ìí¼ÓÊ§°Ü£¡");
+			json.put("message", "æ·»åŠ å¤±è´¥ï¼");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//È¨ÏŞ¹ÜÀí  FunctionÌí¼Ó
+	//æƒé™ç®¡ç†  Functionæ·»åŠ 
 	@ResponseBody
 	@RequestMapping("/insertFunction")
 	public void FunctionInsert(TbSystemFunction function,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -607,24 +607,24 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		int flag=functionService.insert(function);
 		if(flag>0) {
-			json.put("message", "Ìí¼Ó³É¹¦");
+			json.put("message", "æ·»åŠ æˆåŠŸ");
 		}else {
-			json.put("message", "Ìí¼ÓÊ§°Ü£¡");
+			json.put("message", "æ·»åŠ å¤±è´¥ï¼");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//Õ¾ÄÚĞÅ
+	//ç«™å†…ä¿¡
 	
-	//Ğ´ĞÅÌø×ª
+	//å†™ä¿¡è·³è½¬
 	@RequestMapping("/messageAdd")
 	public String messageAdd() {
 		return "messageinsert";
 	}
 	
-	//messageÌí¼Ó
+	//messageæ·»åŠ 
 	@ResponseBody
 	@RequestMapping("/insertMessage")
 	public void MessageInsert(TbCrmMessage message,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -641,16 +641,16 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		int flag=MService.insert(message);
 		if(flag>0) {
-			json.put("message", "·¢ËÍ³É¹¦");
+			json.put("message", "å‘é€æˆåŠŸ");
 		}else {
-			json.put("message", "·¢ËÍÊ§°Ü£¡");
+			json.put("message", "å‘é€å¤±è´¥ï¼");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//²éÑ¯×Ô¼ºĞ´¸ø±ğÈËµÄĞÅ
+	//æŸ¥è¯¢è‡ªå·±å†™ç»™åˆ«äººçš„ä¿¡
 	@ResponseBody
 	@RequestMapping("/getMessageBM")
 	public Map<String, Object> getMessageBM(HttpServletRequest request, HttpServletResponse response) {
@@ -675,7 +675,7 @@ public class LoginController {
 		return map;
 
 	}
-	//²éÑ¯±ğÈËĞ´¸ø×Ô¼ºµÄĞÅ
+	//æŸ¥è¯¢åˆ«äººå†™ç»™è‡ªå·±çš„ä¿¡
 	@ResponseBody
 	@RequestMapping("/getMessageBO")
 	public Map<String, Object> getMessageBO(HttpServletRequest request, HttpServletResponse response) {
@@ -700,7 +700,7 @@ public class LoginController {
 		return map;
 
 	}
-	 //²é¿´×Ô¼ºĞ´µÄĞÅ
+	 //æŸ¥çœ‹è‡ªå·±å†™çš„ä¿¡
 	@RequestMapping("/messagefromlook/{id}")
 	public String messagefromlook(@PathVariable Integer id,HttpServletRequest request) {
 		TbCrmMessage message=MService.selectByid(id);
@@ -712,7 +712,7 @@ public class LoginController {
 		return "messagefromuserview";
 	}
 	
-	 //²é¿´±ğÈËĞ´µÄĞÅ
+	 //æŸ¥çœ‹åˆ«äººå†™çš„ä¿¡
 	@RequestMapping("/messagetolook/{id}")
 	public String messagetolook(@PathVariable Integer id,HttpServletRequest request) {
 		TbCrmMessage message=MService.selectByid(id);
@@ -724,7 +724,7 @@ public class LoginController {
 		return "messagetoUserview";
 	}
 	
-	//message²éÔÄ×Ô¼ºĞ´µÄĞÅ
+	//messageæŸ¥é˜…è‡ªå·±å†™çš„ä¿¡
 	@ResponseBody
 	@RequestMapping("/messagelookmyok")
 	public void messagelookok(TbCrmMessage message,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -735,15 +735,15 @@ public class LoginController {
 //		message.setReadTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 		int ok=MService.updateByPrimaryKey(message);
 		if(ok>0) {
-			json.put("message1", "ÔÄ¶ÁÍê±Ï£¡");
+			json.put("message1", "é˜…è¯»å®Œæ¯•ï¼");
 		}else {
-			json.put("message1", "ÔÄ¶ÁÎ´Íê£¡");
+			json.put("message1", "é˜…è¯»æœªå®Œï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	}
 	
-	//message²éÔÄÊÕµ½µÄĞÅ
+	//messageæŸ¥é˜…æ”¶åˆ°çš„ä¿¡
 	@ResponseBody
 	@RequestMapping("/messagelookotherok")
 	public void messagelookotherok(TbCrmMessage message,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -754,15 +754,15 @@ public class LoginController {
 		message.setReadTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 		int ok=MService.updateByPrimaryKey(message);
 		if(ok>0) {
-			json.put("message1", "ÔÄ¶ÁÍê±Ï£¡");
+			json.put("message1", "é˜…è¯»å®Œæ¯•ï¼");
 		}else {
-			json.put("message1", "ÔÄ¶ÁÎ´Íê£¡");
+			json.put("message1", "é˜…è¯»æœªå®Œï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	}
 	
-    //messageÉ¾³ı
+    //messageåˆ é™¤
 	@ResponseBody
 	@RequestMapping("/messageDelete/{id}")
 	public boolean messageDelete(@PathVariable Integer id) {

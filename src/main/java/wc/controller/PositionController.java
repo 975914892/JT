@@ -23,13 +23,13 @@ import wc.service.ITbCrmPositionService;
 
 @Controller
 public class PositionController {
-	/*----------------¸ÚÎ»¿ØÖÆ--------*/
+	/*----------------å²—ä½æ§åˆ¶--------*/
 	@Resource
 	public ITbCrmPositionService tbCrmPositionService;
 	
 	@Resource
 	public ITbCrmDepartmentService tbCrmDepartmentService;
-	/************************·ÖÒ³²éÑ¯************************/
+	/************************åˆ†é¡µæŸ¥è¯¢************************/
 	@RequestMapping("/position")
 	public String toPostition_jsp(){
 		return "position";
@@ -41,27 +41,27 @@ public class PositionController {
 		String rows = request.getParameter("rows");
 		String page = request.getParameter("page");
 		
-		//¿ªÊ¼NO
+		//å¼€å§‹NO
 		int startNo =(Integer.parseInt(page)-1)*Integer.parseInt(rows);
-		//½áÊøNO
+		//ç»“æŸNO
 		int endNo=Integer.parseInt(page)*Integer.parseInt(rows)+1;
 		List<PositionVO> listA=tbCrmPositionService.findByPage(startNo,endNo);
 		int total = tbCrmPositionService.findtotal();
 		System.out.println(total);
 		System.out.println(listA);
-		//Ğ´³öÊı¾İµ½Ò³Ãæ
+		//å†™å‡ºæ•°æ®åˆ°é¡µé¢
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		json.put("total", total);
 		json.put("rows", listA);
-		json.put("message", "³õÊ¼»¯Êı¾İ³É¹¦");
+		json.put("message", "åˆå§‹åŒ–æ•°æ®æˆåŠŸ");
 		out.println(json.toString());
 		out.flush();
 		
 	}
-	/************************Ìí¼Ó¸ÚÎ»ĞÅÏ¢************************/
+	/************************æ·»åŠ å²—ä½ä¿¡æ¯************************/
 	
 	@RequestMapping("addPositionBefore")
 	public String findAddPosition_jsp(HttpServletRequest request) {
@@ -74,22 +74,22 @@ public class PositionController {
 	}
 	@RequestMapping("addPositionAfter")
 	public void addPosition(TbCrmPosition tcp,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		//²åÈëÊı¾İ
+		//æ’å…¥æ•°æ®
 		int row = tbCrmPositionService.insert(tcp);
-		//ÏòÒ³Ãæ·µ»ØÊı¾İ
+		//å‘é¡µé¢è¿”å›æ•°æ®
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		if(row >0) {
-			json.put("message", "Ìí¼Ó¸ÚÎ»³É¹¦");
+			json.put("message", "æ·»åŠ å²—ä½æˆåŠŸ");
 		}else {
-			json.put("message", "Ìí¼Ó¸ÚÎ»Ê§°Ü");
+			json.put("message", "æ·»åŠ å²—ä½å¤±è´¥");
 		}
 		out.println(json.toString());
 		out.flush();
 	}
-	/************************ĞŞ¸Ä¸ÚÎ»ĞÅÏ¢************************/
+	/************************ä¿®æ”¹å²—ä½ä¿¡æ¯************************/
 	@RequestMapping("editPositionBefore")
 	public String findEditPosition_jsp(int id,HttpServletRequest request) {
 		List<TbCrmPosition> listA = tbCrmPositionService.findALL();
@@ -102,22 +102,22 @@ public class PositionController {
 	}
 	@RequestMapping("editPositionAfter")
 	public void editPosition(TbCrmPosition tcp,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		//²åÈëÊı¾İ
+		//æ’å…¥æ•°æ®
 		int row = tbCrmPositionService.update(tcp);
-		//ÏòÒ³Ãæ·µ»ØÊı¾İ
+		//å‘é¡µé¢è¿”å›æ•°æ®
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		if(row >0) {
-			json.put("message", "ĞŞ¸Ä¸ÚÎ»³É¹¦");
+			json.put("message", "ä¿®æ”¹å²—ä½æˆåŠŸ");
 		}else {
-			json.put("message", "ĞŞ¸Ä¸ÚÎ»Ê§°Ü");
+			json.put("message", "ä¿®æ”¹å²—ä½å¤±è´¥");
 		}
 		out.println(json.toString());
 		out.flush();
 	}
-	/************************É¾³ı¸ÚÎ»ĞÅÏ¢************************/
+	/************************åˆ é™¤å²—ä½ä¿¡æ¯************************/
 	
 	@ResponseBody
 	@RequestMapping("/deletePosition")
@@ -129,9 +129,9 @@ public class PositionController {
 		JSONObject json = new JSONObject();
 		int flag =tbCrmPositionService.deleteById(id);
 		if(flag>0) {
-			json.put("message", "É¾³ı¸ÚÎ»³É¹¦");
+			json.put("message", "åˆ é™¤å²—ä½æˆåŠŸ");
 		}else {
-			json.put("message", "É¾³ı¸ÚÎ»Ê§°Ü");
+			json.put("message", "åˆ é™¤å²—ä½å¤±è´¥");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
@@ -139,7 +139,7 @@ public class PositionController {
 		
 		
 	}
-	/************************¸ÚÎ»ĞÅÏ¢µÄÄ£ºı²éÑ¯
+	/************************å²—ä½ä¿¡æ¯çš„æ¨¡ç³ŠæŸ¥è¯¢
 	 * @throws Exception ************************/
 	@ResponseBody
 	@RequestMapping("/positionSerachSelect")
@@ -147,12 +147,12 @@ public class PositionController {
 		String rows = request.getParameter("rows");
 		String page = request.getParameter("page");
 		
-		//¿ªÊ¼NO
+		//å¼€å§‹NO
 		int startNo =(Integer.parseInt(page)-1)*Integer.parseInt(rows);
-		//½áÊøNO
+		//ç»“æŸNO
 		int endNo=Integer.parseInt(page)*Integer.parseInt(rows)+1;
 		
-		//¸ù¾İname²éÑ¯µÄÊı¾İ×ÜÌõÊı
+		//æ ¹æ®nameæŸ¥è¯¢çš„æ•°æ®æ€»æ¡æ•°
 		int total = tbCrmPositionService.findByNameTotal(name);
 		List<PositionVO> list = tbCrmPositionService.findByNamePage(startNo,endNo,name);
 		
@@ -162,7 +162,7 @@ public class PositionController {
 		JSONObject json = new JSONObject();
 		json.put("total", total);
 		json.put("rows", list);
-		json.put("message", "³õÊ¼»¯Êı¾İ³É¹¦");
+		json.put("message", "åˆå§‹åŒ–æ•°æ®æˆåŠŸ");
 		out.println(json.toString());
 		out.flush();
 	}

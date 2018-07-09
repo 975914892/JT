@@ -31,18 +31,18 @@ public class ProductController {
 	@Resource
 	public ITbCrmProductCategoryService proCateService;
 	
-	//²úÆ·¹ÜÀí
+	//äº§å“ç®¡ç†
 	@RequestMapping("/product")
 	public String product(){
 		return "productList";
 	}
-	//²úÆ··ÖÀà
+	//äº§å“åˆ†ç±»
 	@RequestMapping("/productCategory")
 	public String productCategoryList(){
 		return "productCategoryList";
 	}
 	
-	//²úÆ·Ìí¼Ó
+	//äº§å“æ·»åŠ 
 	@RequestMapping("/productAdd")
 	public String productAdd(HttpServletRequest request) {
 		List<TbCrmProductCategory> proCateList=proCateService.selectAll();
@@ -50,13 +50,13 @@ public class ProductController {
 		return "productinsert";
 	}
 	
-	//²úÆ··ÖÀàÌí¼Ó
+	//äº§å“åˆ†ç±»æ·»åŠ 
 	@RequestMapping("/productCategoryAdd")
 	public String productCategoryAdd() {
 		return "productCategoryinsert";
 	}
 	
-	//²úÆ·ĞŞ¸ÄÇ°²éÑ¯
+	//äº§å“ä¿®æ”¹å‰æŸ¥è¯¢
 	@RequestMapping("/productUpdateList/{id}")
 	public String productUpdateList(@PathVariable Integer id,HttpServletRequest request) {
 		TbCrmProduct product=proService.listByid(id);
@@ -65,7 +65,7 @@ public class ProductController {
 		request.setAttribute("proCateList", proCateList);
 		return "productedit";
 	}
-	//²úÆ·ĞŞ¸Ä
+	//äº§å“ä¿®æ”¹
 	@ResponseBody
 	@RequestMapping("/productUpdate")
 	public void productUpdatedo(TbCrmProduct product,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -75,24 +75,24 @@ public class ProductController {
 		JSONObject json = new JSONObject();
 		product.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
 		int ok=proService.updateByPrimaryKey(product);
-		System.out.println("ĞŞ¸ÄÊÇ·ñ³É¹¦"+ok);
+		System.out.println("ä¿®æ”¹æ˜¯å¦æˆåŠŸ"+ok);
 		if(ok>0) {
-			json.put("message", "ĞŞ¸Ä³É¹¦£¡");
+			json.put("message", "ä¿®æ”¹æˆåŠŸï¼");
 		}else {
-			json.put("message", "ĞŞ¸ÄÊ§°Ü£¡");
+			json.put("message", "ä¿®æ”¹å¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	} 
 	
-	//²úÆ··ÖÀàĞŞ¸ÄÇ°²éÑ¯
+	//äº§å“åˆ†ç±»ä¿®æ”¹å‰æŸ¥è¯¢
 	@RequestMapping("/productcategoryUpdateList/{id}")
 	public String productcategoryUpdateList(@PathVariable Integer id,HttpServletRequest request) {
 		TbCrmProductCategory procate=proCateService.listByid(id);
 		request.setAttribute("procate", procate);
 		return "productcategoryedit";
 	}
-	//²úÆ··ÖÀàĞŞ¸Ä
+	//äº§å“åˆ†ç±»ä¿®æ”¹
 	@ResponseBody
 	@RequestMapping("/productcategoryUpdate")
 	public void productcategoryUpdate(TbCrmProductCategory productcategory,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -101,17 +101,17 @@ public class ProductController {
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		int ok=proCateService.updateByPrimaryKey(productcategory);
-		System.out.println("ĞŞ¸ÄÊÇ·ñ³É¹¦"+ok);
+		System.out.println("ä¿®æ”¹æ˜¯å¦æˆåŠŸ"+ok);
 		if(ok>0) {
-			json.put("message", "ĞŞ¸Ä³É¹¦£¡");
+			json.put("message", "ä¿®æ”¹æˆåŠŸï¼");
 		}else {
-			json.put("message", "ĞŞ¸ÄÊ§°Ü£¡");
+			json.put("message", "ä¿®æ”¹å¤±è´¥ï¼");
 		}
 		out.print(json.toString());
 		out.flush();
 	} 
 	
-	//²úÆ·¹ÜÀí  ·ÖÒ³²éÑ¯
+	//äº§å“ç®¡ç†  åˆ†é¡µæŸ¥è¯¢
 	@ResponseBody
 	@RequestMapping("/selectProduct")
 	public Map<String, Object> getProduct(HttpServletRequest request, HttpServletResponse response) {
@@ -136,7 +136,7 @@ public class ProductController {
 
 	}
 	
-	//Ìí¼Ó²úÆ·
+	//æ·»åŠ äº§å“
 	@ResponseBody
 	@RequestMapping("/insertProduct")
 	public void productInsert(TbCrmProduct product,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -152,16 +152,16 @@ public class ProductController {
 		JSONObject json = new JSONObject();
 		int flag=proService.insert(product);
 		if(flag>0) {
-			json.put("message", "Ìí¼Ó³É¹¦");
+			json.put("message", "æ·»åŠ æˆåŠŸ");
 		}else {
-			json.put("message", "Ìí¼ÓÊ§°Ü£¡");
+			json.put("message", "æ·»åŠ å¤±è´¥ï¼");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
 		out.flush();
 	}
 	
-    //É¾³ı²úÆ·
+    //åˆ é™¤äº§å“
 	@ResponseBody
 	@RequestMapping("/productDelete/{id}")
 	public boolean productDelete(@PathVariable Integer id) {
@@ -170,7 +170,7 @@ public class ProductController {
 	}
 	
 	
-	//²úÆ··ÖÀà¹ÜÀí  ·ÖÒ³²éÑ¯
+	//äº§å“åˆ†ç±»ç®¡ç†  åˆ†é¡µæŸ¥è¯¢
 	@ResponseBody
 	@RequestMapping("/selectProductCategory")
 	public Map<String, Object> getProductCategory(HttpServletRequest request, HttpServletResponse response) {
@@ -195,7 +195,7 @@ public class ProductController {
 
 	}
 	
-	//Ìí¼Ó²úÆ·
+	//æ·»åŠ äº§å“
 	@ResponseBody
 	@RequestMapping("/insertProductCategory")
 	public void productCategoryInsert(TbCrmProductCategory productCategory,HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -205,9 +205,9 @@ public class ProductController {
 		JSONObject json = new JSONObject();
 		int flag=proCateService.insert(productCategory);
 		if(flag>0) {
-			json.put("message", "Ìí¼Ó³É¹¦");
+			json.put("message", "æ·»åŠ æˆåŠŸ");
 		}else {
-			json.put("message", "Ìí¼ÓÊ§°Ü£¡");
+			json.put("message", "æ·»åŠ å¤±è´¥ï¼");
 		}
 		System.out.println(flag);
 		out.print(json.toString());
@@ -215,7 +215,7 @@ public class ProductController {
 	}
 	
 	
-    //É¾³ı²úÆ··ÖÀà
+    //åˆ é™¤äº§å“åˆ†ç±»
 	@ResponseBody
 	@RequestMapping("/productCategoryDelete/{id}")
 	public boolean productCategoryDelete(@PathVariable Integer id) {
@@ -223,7 +223,7 @@ public class ProductController {
 		return bl;
 	}
 	
-	//²úÆ·±í-Ä£ºı²éÑ¯
+	//äº§å“è¡¨-æ¨¡ç³ŠæŸ¥è¯¢
 	@ResponseBody
 	@RequestMapping("/nameSerachSelect/{name}")
 	public Map<String, Object> nameSerachSelect(@PathVariable String name,HttpServletRequest request, HttpServletResponse response) {

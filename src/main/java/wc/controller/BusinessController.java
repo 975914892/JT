@@ -31,7 +31,6 @@ import wc.entity.TbCrmLeads;
 import wc.service.ITbCrmBusinessService;
 import wc.service.ITbSystemUserService;
 
-
 @RequestMapping("/Business")
 @Controller
 public class BusinessController {
@@ -42,7 +41,7 @@ public class BusinessController {
 	@Resource
 	private ITbSystemUserService userService;
 	
-	//����һ��ȫ��json����
+	//创建一个全局json对象
 	JSONObject json = new JSONObject();
 	
 	@RequestMapping("/business")
@@ -50,19 +49,19 @@ public class BusinessController {
 		
 		return "Business/business";
 	}
-	//���ݿͻ�����ѯ��Ӧ���̻�
+	//根据客户名查询对应的商机
 	@RequestMapping("/findBusinessBy")
 	public void getBusinessByCustomer() {
 		
 	}
 	
-	//���̻��ķ�ҳģ�����ϲ�ѯ
+	//对商机的分页模糊联合查询
 	@RequestMapping("/leadBusiness")
 	public void a(@Param("page")int page,@Param("rows")int rows,
 			HttpServletRequest req,HttpServletResponse resp) throws IOException {
 		
 		HttpSession session = req.getSession();
-		//��ȡsession�Ự�󶨵ĵ�¼�û�id
+		//获取session会话绑定的登录用户id
 		int userId = (Integer) session.getAttribute("userId");
 		String field = req.getParameter("field");
 		String value = req.getParameter("value");
@@ -88,18 +87,18 @@ public class BusinessController {
 		out.close();
 		
 	}
-	//����̻�
+	//添加商机
 	@RequestMapping("/addB")
 	public String addBusiness(HttpServletRequest req) {
 		List<Map<String, Object>> list1 = new ArrayList<Map<String,Object>>();
 		List<Map<String, Object>> list2 = new ArrayList<Map<String,Object>>();
 		List<Map<String, Object>> list3 = new ArrayList<Map<String,Object>>();
-		//��ѯ���и�������
+		//查询所有负责人名
 		list1 = bService.getAllUsername();
 		System.out.println(list1);
-		//��ѯ���пͻ���
+		//查询所有客户名
 		list2 = bService.getAllCustomerName();
-		//��ѯ������ϵ����
+		//查询所有联系人名
 		list3 = bService.getAllContactsName();
 		req.setAttribute("userListAtBusiness", list1);
 		req.setAttribute("customerListAtBusiness", list2);
@@ -107,39 +106,39 @@ public class BusinessController {
 		return "Business/addBusiness";
 	}
 	
-	//���ݿͻ�����ѯ��Ӧ���̻�������ϵ����
+	//根据客户名查询对应的商机名和联系人名
 	@RequestMapping("/littleSelect")
 	public void littleSelect(HttpServletRequest req,HttpServletResponse resp) throws IOException {
 		String customerId = req.getParameter("customerId");
-		System.out.println("��������·�ڸ���������˽�����ʱ�䷢----"+customerId);
-		//��ѯ�̻���
+		System.out.println("垃圾毒素路口附近的萨洛克金佛秒的时间发----"+customerId);
+		//查询商机名
 		String name = bService.findBNameByCId(Integer.parseInt(customerId));
-		//��ѯ��ϵ����
+		//查询联系人名
 		System.out.println(name);
 		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = resp.getWriter();
-		json.put("msg", "��ѯ�ɹ�");
+		json.put("msg", "查询成功");
 		json.put("name", name);
 		out.print(json.toString());
 		out.flush();
 		out.close();
 	}
 	
-	//����̻�
+	//添加商机
 	@RequestMapping("/addBusiness")
 	public void addBusiness(BusinessVO BVO,HttpServletRequest req,HttpServletResponse resp) throws IOException {
-		System.out.println("��������̻�����������ʵ����"+BVO);
+		System.out.println("这是添加商机所创建的新实体类"+BVO);
 		HttpSession session = req.getSession();
 		Integer id = (Integer) session.getAttribute("userId");
-		//����һ���̻����ʵ���࣬��������ʵ�����ֵ����ȥ
+		//创建一个商机表的实体类，用来把新实体类的值传过去
 		TbCrmBusiness tcb = aaaa(BVO, 1, 0);
 		tcb.setCreatotUserId(id);
 		int a = bService.addBusiness(tcb);
 		if(a>0) {
-			json.put("msg", "��ӳɹ�");
+			json.put("msg", "添加成功");
 		}else {
-			json.put("msg", "���ʧ��");
+			json.put("msg", "添加失败");
 		}
 		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json; charset=UTF-8");
@@ -150,12 +149,12 @@ public class BusinessController {
 		
 	}
 	
-	//����ɾ��
+	//批量删除
 		@RequestMapping("/deleteBusiness")
 		public void deleteLeads(String businessIds,Integer userId,HttpServletRequest req,HttpServletResponse resp) throws Exception {
 			String method = req.getParameter("method");
 			int a = 0;
-			//��String����תΪinteger���飬��תΪList<Integer>����
+			//将String数组转为integer数组，再转为List<Integer>集合
 			String[] ids = businessIds.split(",");
 			Integer[] idss = new Integer[ids.length];
 			for (int i = 0; i <ids.length; i++)
@@ -164,21 +163,21 @@ public class BusinessController {
 			}
 			List<Integer> list= Arrays.asList(idss);
 			if(method.equals("delete")) {
-				//��������ɾ��״̬�ﵽɾ��Ч��
+				//批量更新删除状态达到删除效果
 				a = bService.updateDelete(list);
 				if(a>0) {
-					json.put("flag", "ɾ���ɹ����ѷ������վ������ʱ�鿴");
+					json.put("flag", "删除成功，已放入回收站，可随时查看");
 				}else{
-					json.put("flag", "ɾ��ʧ��");
+					json.put("flag", "删除失败");
 				}
 			}
 //			if(method.equals("re")) {
-//				//�����ָ���������
+//				//批量恢复到线索池
 //				a = bService.reLeads(list);
 //				if(a>0) {
-//					json.put("flag", "�ָ��ɹ����ѷ��������أ�����ʱ�鿴");
+//					json.put("flag", "恢复成功，已放入线索池，可随时查看");
 //				}else{
-//					json.put("flag", "�ָ�ʧ��");
+//					json.put("flag", "恢复失败");
 //				}
 //			}
 			resp.setCharacterEncoding("UTF-8");
@@ -189,16 +188,16 @@ public class BusinessController {
 			out.close();
 			
 		}
-		//ɾ��һ��
+		//删除一条
 		@RequestMapping("/deleteBusinessOne")
 		public void deleteLeadOne(int id,HttpServletResponse resp) throws IOException {
 			System.out.println();
 			int a = bService.updateDeleteOne(id);
 			
 			if(a>0) {
-				json.put("flag", "ɾ���ɹ����ѷ������վ������ʱ�鿴");
+				json.put("flag", "删除成功，已放入回收站，可随时查看");
 			}else{
-				json.put("flag", "ɾ��ʧ��");
+				json.put("flag", "删除失败");
 			}
 			resp.setCharacterEncoding("UTF-8");
 			resp.setContentType("application/json; charset=UTF-8");
@@ -208,51 +207,51 @@ public class BusinessController {
 			out.close();
 		}
 		
-		//��ѯһ���̻�
+		//查询一条商机
 		@RequestMapping("/editBusiness")
 		public String editLead(HttpServletRequest req) throws Exception {
-			//��ȡ�󶨵Ĳ���
+			//获取绑定的参数
 			String id = req.getParameter("id");
 			String method = req.getParameter("method");
-			//ת��Ϊlong���ͣ�����ת��ΪLong����
+			//转换为long类型，方便转换为Long类型
 			long l = Long.parseLong(id);
-			TbCrmBusiness tcb = bService.getOneById(l);	//��ѯһ������
+			TbCrmBusiness tcb = bService.getOneById(l);	//查询一条数据
 			BusinessVO BVO = bService.getOneBusinessVO(l);
 			req.setAttribute("business", tcb);
 			req.setAttribute("BVO", BVO);
 			req.setAttribute("id", id);
 			if(method.equals("list")) {
-				req.setAttribute("msg", "�鿴�̻�");
+				req.setAttribute("msg", "查看商机");
 				return "Business/editBusiness";
 			}
 			if(method.equals("update")) {
-				req.setAttribute("msg", "�޸��̻�");
+				req.setAttribute("msg", "修改商机");
 				return "Business/updateBusiness";
 			}
 			if(method.equals("push")) {
-				req.setAttribute("msg", "�ƽ�");
+				req.setAttribute("msg", "推进");
 				return "Business/pushLead";
 			}
 			return "";
 		}
 		
-		//����һ������
+		//更新一条线索
 		@RequestMapping("/updateBusiness")
 		public void updateLead(BusinessVO BVO,HttpServletRequest req,HttpServletResponse resp) throws Exception {
 			System.out.println(BVO);
 			
-			//��ȡid
+			//获取id
 			int id = Integer.parseInt(req.getParameter("id"));
-			//�Լ���װ�İ�ֵת�Ƶķ������Ա�ʹ��
+			//自己封装的把值转移的方法，以便使用
 			TbCrmBusiness tcb =aaaa(BVO,2,id);
 			
-			//��������
+			//更新数据
 			int a = bService.updateOne(tcb);
 			
 			if(a>0) {
-				json.put("aa", "���³ɹ�");
+				json.put("aa", "更新成功");
 			}else {
-				json.put("aa","����ʧ��");
+				json.put("aa","更新失败");
 			}
 			resp.setCharacterEncoding("UTF-8");
 			resp.setContentType("application/json; charset=UTF-8");
@@ -262,7 +261,7 @@ public class BusinessController {
 			out.close();
 		}
 		
-		//�̻��ͻ���վ����תվ������
+		//商机和回收站的中转站。。。
 		@RequestMapping("/BP")
 		public String LP(HttpServletRequest req) {
 			String method = req.getParameter("method");
@@ -273,14 +272,14 @@ public class BusinessController {
 			return "";
 		}
 		
-		//����վ��ҳģ����ѯ
+		//回收站分页模糊查询
 		@RequestMapping("/businessRecycleBin")
 		@ResponseBody
 		public Map<String, Object> leadRecycleBin(@Param("page")int page,@Param("rows")int rows,
 				HttpServletRequest req,HttpServletResponse resp){
 			Map<String, Object> map = new HashedMap();
 			
-			//���ո����������ж�
+			//接收各个参数并判断
 			String field = req.getParameter("field");
 			String value = req.getParameter("value");
 			String startTime = req.getParameter("startTime");
@@ -298,9 +297,9 @@ public class BusinessController {
 				endTime=null;
 			}
 			List<BusinessVO> list = new ArrayList<BusinessVO>();
-			//��ҳģ����ѯ
+			//分页模糊查询
 			list = bService.findBusinessRB(value,field,(page-1)*rows,rows,startTime,endTime);
-			//��������վ������
+			//线索回收站总行数
 			int total = bService.findBusinessRBCount(value,field,(page-1)*rows,rows,startTime,endTime);
 			if(list.size()>0) {
 				map.put("rows", list);
@@ -310,7 +309,7 @@ public class BusinessController {
 			return map;
 		}
 		
-		//�̻�����־
+		//商机的日志
 		@RequestMapping("/businessA")
 		public String businessLog(HttpServletRequest req) {
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -352,9 +351,9 @@ public class BusinessController {
 			b.setId((long) id);
 			int a = bService.updateStatusBy(b);
 			if(a>0) {
-				json.put("msg", "�ƽ��ɹ�");
+				json.put("msg", "推进成功");
 			}else {
-				json.put("msg", "�ƽ��ɹ�");
+				json.put("msg", "推进成功");
 			}
 			resp.setCharacterEncoding("UTF-8");
 			resp.setContentType("application/json; charset=UTF-8");
@@ -374,20 +373,20 @@ public class BusinessController {
 		
 		
 		
-		//���з�װ�ķ�����������ӻ��޸���������
+		//自行封装的方法，用于添加或修改线索数据
 		public TbCrmBusiness aaaa(BusinessVO BVO,int a,int id) {
-			//��ȡ������id
+			//获取负责人id
 			int ownerId = userService.findUserId(BVO.getOwnerName());
-			//��ȡ��ϵ��id
+			//获取联系人id
 			int contactsId = bService.getContactsId(BVO.getContactsName());
-			//��ȡ�ͻ�id
+			//获取客户id
 			int customerId = bService.getCustomerId(BVO.getCustomerName());
 			TbCrmBusiness tcb = new TbCrmBusiness();
 			if(id>0) {
 				tcb = bService.getOneById(id);
 			}
 			
-			//���ݸ��������ֲ�ѯ��Ӧid
+			//根据负责人名字查询对应id
 			String ownerName = BVO.getOwnerName();
 			int userId = userService.findUserId(ownerName);
 			
@@ -412,7 +411,7 @@ public class BusinessController {
 			}
 			tcb.setUpdateTime(date);
 			
-			System.out.println("������·�����̷��Ҿ����Ƿ���"+tcb);
+			System.out.println("利达解放路撒旦教佛我绝对是放松"+tcb);
 			return tcb;
 		}
 
